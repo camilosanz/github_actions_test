@@ -1,0 +1,9 @@
+*__pycache__
+teams_atendance_app/.cache
+teams_atendance_app/.pytest_cache
+teams_atendance_app/*.pyc
+teams_atendance_app/pytestdebug.log
+teams_atendance_app/.coverage
+teams_atendance_app/.vscode
+teams_atendance_app/attendance_queries
+.env
