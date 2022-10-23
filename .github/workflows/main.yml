@@ -16,10 +16,8 @@ jobs:
         run: pip3 install -r requirements.txt
       - 
         name: Test
-        working-directory: /github_actions_test
         run: coverage run -m pytest
       - 
         name: Coverage
-        working-directory: /github_actions_test
         run: coverage html
 
