@@ -1,0 +1,23 @@
+name: CI github_actions_test
+
+on:
+  push:
+    branches:
+      - 'main'
+jobs:
+  build:
+    runs-on: [self-hosted, linux, ARM64]
+    steps:
+      -
+        name: Checkout 
+        uses: actions/checkout@v3
+      - 
+        name: Build stack
+        run: docker-compose up -d
+      - 
+        name: Test
+        run: coverage run -m pytest
+      - 
+        name: Coverage
+        run: coverage html
+
