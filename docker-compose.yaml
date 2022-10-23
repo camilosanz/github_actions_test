@@ -2,11 +2,8 @@ version: "3.2"
 
 services:
   py_app:
-    image: att_app:1.6
+    image: att_app:1.7
     command: "python3 src/main.py ${QUERY} ${MEETING} ${DATEINIT} ${DATEEND}"
-    build:
-      context: .
-      dockerfile: Dockerfile
     volumes:
       - type: bind
         source: /vagrant/attendance_reports
