@@ -16,8 +16,8 @@ jobs:
         run: pip3 install -r requirements.txt
       - 
         name: Test
-        run: coverage run -m pytest
+        run: python3 -m coverage run -m pytest
       - 
         name: Coverage
-        run: coverage html
+        run: python3 -m coverage html
 
