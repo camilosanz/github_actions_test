@@ -16,9 +16,3 @@ services:
       - type: bind
         source: /vagrant/github_actions_test/coverage
         target: /github_actions_test/coverage
-  
-  py_app_tests:
-    command: coverage run -m pytest
-  
-  py_app_coverage:
-    command: coverage html

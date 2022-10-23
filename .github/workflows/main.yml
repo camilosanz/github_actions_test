@@ -14,4 +14,12 @@ jobs:
       - 
         name: Build stack
         run: docker-compose up -d
+      - 
+        name: Test
+        working-directory: /github_actions_test
+        run: coverage run -m pytest
+      - 
+        name: Coverage
+        working-directory: /github_actions_test
+        run: coverage html
 
