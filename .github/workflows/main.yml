@@ -14,10 +14,4 @@ jobs:
       - 
         name: Build stack
         run: docker-compose up -d
-      - 
-        name: Test
-        run: coverage run -m pytest
-      - 
-        name: Coverage
-        run: coverage html
 
