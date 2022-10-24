@@ -1,0 +1,10 @@
+version: '3.7'
+
+services:
+  team-attendance-app:
+    build: .
+    volumes:
+      - "./attendance_reports:/attendance_app/attendace_reports"
+      - "./output:/attendance_app/output"
+    image: localhost:8085/attendance_app:1.2.0-alpine
+    container_name: attendance_app

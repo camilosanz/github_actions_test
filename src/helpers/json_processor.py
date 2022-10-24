@@ -2,50 +2,59 @@
 1. Genenerates JSON from in-memory object
 2. Writes in-memory object into JSON file
 """
-
-from helpers.data_processor import  filter_data
-from utils import date_format_out, generate_dates, get_file_name, path_existence
 import json
 import os
+from datetime import datetime
+
+OUTPUT_DIR = 'output'
 
 
-def write_data_json_file(data, meeting_name, start_date, end_date):
-
-    path = os.path.realpath(os.path.join(os.path.dirname(__file__),'..','..','attendance_reports_queries'))
-    file_name = get_file_name(meeting_name, start_date, end_date)
-    path_existence(path)
-    filename = os.path.join(path, file_name)
-
-    with open(filename, 'w') as openfile:
-        openfile.write(data)
-
-    
-
-def generate_answer_json(answer_option, meeting_name, date_init, date_end):
-    answer = {
-        'meeting_title': meeting_name,
-        'data': []
-    }    
-    answer_data_format = {
-        'participants':-99999,
-        'duration': "0h 0m"
+def generate_json(string_meeting_title, list_data):
+    json = {
+        "meeting_title": string_meeting_title,
+        "data": list_data
     }
-    meeting_dates_list = []
-    meeting_data_per_date = {}
+    return json
 
-    for meeting in filter_data(meeting_name, date_init, date_end):
-        meeting_date = date_format_out(meeting['meeting_start_time'])
-        meeting_dates_list.append(meeting_date)
-        meeting_data_per_date[meeting_date] = meeting[answer_option]
 
-    for date in generate_dates(date_init, date_end):
-        if not date in meeting_dates_list:
-            answer_data = {'date':date, answer_option:answer_data_format[answer_option]}
-        else:
-            answer_data = {'date':date, answer_option: meeting_data_per_date[date]}
-        answer['data'].append(answer_data)
-    
-    json_answer = json.dumps(answer, indent=4, sort_keys=False)
-    write_data_json_file(json_answer, meeting_name, date_init, date_end)
+def generate_dict(string_date, key, key_variable):
+    dictionary = {
+        "date": string_date,
+        key: key_variable
+    }
+    return dictionary
 
-    return json_answer
+
+def print_json(json_string):
+    print(json.dumps(json_string, indent=4))
+
+
+def create_folder(path):
+    # Check folder structure
+    if not os.path.exists(path):
+        os.mkdir(path)
+
+
+def get_timestamp_string():
+    return datetime.now().strftime("%Y%m%d%H%M%S")
+
+
+def get_filename(prefix="json", extension="json"):
+    """
+    Build filename using:
+     'prefix' => Strign
+     'suffix' => Build from timestamp yyyymmHHMMSS
+     'extension' => String
+    Output is: 'prefix'_'sufix'.'extension'
+    """
+    return "{}_{}.{}".format(prefix, get_timestamp_string(), extension)
+
+
+def writes_json_file(data):
+    if not os.path.exists(OUTPUT_DIR):
+        os.mkdir(OUTPUT_DIR)
+
+    json_path_folder = os.path.join(OUTPUT_DIR, get_filename())
+    with open(json_path_folder, 'w') as json_file:
+        json_object = json.dumps(data, indent=4)
+        json_file.write(json_object)

@@ -2,7 +2,10 @@ version: "3.2"
 
 services:
   py_app:
+    image: att_app:1.6
     build:
+      context: .
+      dockerfile: Dockerfile
     volumes:
       - type: bind
         source: /vagrant/attendance_reports
