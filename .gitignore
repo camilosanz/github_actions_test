@@ -7,3 +7,4 @@ pytestdebug.log
 /output
 .vscode
 /htmlcov
+.env
