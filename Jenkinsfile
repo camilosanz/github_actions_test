@@ -1,8 +1,10 @@
 pipeline {
     agent {label 'DevOps'}
     environment {
-                    SONAR_TOKEN = credentials('sonarqube')
-                }
+        SONARQUBE_URL="10.0.2.15:3002"
+        YOUR_PROJECT_KEY="attendance_app_ci_blue"
+        SONAR_LOGIN=credentials('sonarscanner-container')
+    }
     stages {
         stage('Install python') {
             steps {
@@ -29,24 +31,34 @@ pipeline {
                 sh 'python3 -m coverage html'
             }
         }
-        stage('Static code analysis') {
+
+        stage('Static Code Analysis - Plugin') {
+           steps {
+               script {
+                   def sonarscanner = tool 'sonarqube-scanner-jala'
+                   def sonarscannerParams = "-Dsonar.projectName=${YOUR_PROJECT_KEY} " + 
+                       "-Dsonar.projectKey=${YOUR_PROJECT_KEY} " + 
+                       "-Dsonar.sources=. " + 
+                       "-Dsonar.python.coverage.reportPaths=coverage.xml"
+                   withSonarQubeEnv('SonarQubeCE-Jala'){
+                       sh "${sonarscanner}/bin/sonar-scanner ${sonarscannerParams}"
+                   }
+               }
+           }
+        }
+
+        stage('Static Code Analysis') {
             steps {
-                script {
-                    def sonarscanner = tool 'sonarqube-scanner-jala'
-                    def sonarscannerParams = "-Dsonar.projectName=AttendanceAppGithubActionsTest " + 
-                        "-Dsonar.projectKey=AttendanceAppGithubActionsTest " + 
-                        "-Dsonar.sources=. " +
-                        "-Dsonar.python.coverage.reportPaths=coverage.xml"
-                    withSonarQubeEnv('SonarQubeCE-Jala'){
-                        sh "${sonarscanner}/bin/sonar-scanner ${sonarscannerParams}"
-                    }
-                }
+                sh """
+                    docker run \
+                        --rm \
+                        -e SONAR_HOST_URL="http://${SONARQUBE_URL}" \
+                        -e SONAR_SCANNER_OPTS="-Dsonar.projectKey=${YOUR_PROJECT_KEY} -Dsonar.python.coverage.reportPaths=coverage.xml -Dsonar.projectName=${YOUR_PROJECT_KEY}-project" \
+                        -e SONAR_LOGIN="${SONAR_LOGIN}" \
+                        -v "$WORKSPACE:/usr/src" \
+                        sonarsource/sonar-scanner-cli
+                """
             }
         }
-        // stage('Static code analysis') {
-        //     steps {
-        //         sh "sonar-scanner -Dsonar.login=${SONAR_TOKEN}"
-        //     }
-        // }
     }
 }
