@@ -7,7 +7,7 @@ WORKDIR /attendance_app
 
 COPY ./requirements.txt ./requirements.txt
 
-RUN pip install --no-cache-dir --upgrade -r requirements.txt
+RUN pip3 install -r requirements.txt
 
 COPY ./tests /attendance_app/tests
 COPY ./src /attendance_app/src
