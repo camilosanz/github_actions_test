@@ -9,6 +9,12 @@ jobs:
       matrix:
         python-version: ["3.7"]
     steps:
+      - name: 'Cleanup build folder'
+        run: |
+          ls -la ./
+          rm -rf ./* || true
+          rm -rf ./.??* || true
+          ls -la ./
       - name: Cloning project
         uses: actions/checkout@v3
       - name: Set up Python ${{ matrix.python-version }}
@@ -33,8 +39,8 @@ jobs:
           path: coverage/index.html
       - name: Docker Compose Building
         run: | 
-          docker-compose build
-          docker-compose ps -a
+          docker compose build
+          docker compose ps -a
       - name: Docker Compose Running Test
         run: |
           docker compose run team-attendance-app -o 1 -m general -sd 2022-09-10 -ed 2022-09-20

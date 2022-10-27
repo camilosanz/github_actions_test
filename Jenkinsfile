@@ -33,8 +33,8 @@ pipeline {
             steps {
                 script {
                     def sonarscanner = tool 'sonarqube-scanner-jala'
-                    def sonarscannerParams = "-Dsonar.projectName=AttendanceApp " + 
-                        "-Dsonar.projectKey=AttendanceApp " + 
+                    def sonarscannerParams = "-Dsonar.projectName=AttendanceAppGithubActionsTest " + 
+                        "-Dsonar.projectKey=AttendanceAppGithubActionsTest " + 
                         "-Dsonar.sources=. " +
                         "-Dsonar.python.coverage.reportPaths=coverage.xml"
                     withSonarQubeEnv('SonarQubeCE-Jala'){
