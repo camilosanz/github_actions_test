@@ -1,15 +1,14 @@
 FROM python:alpine3.16
 LABEL version="1.2.0" \
       description="Team attendance app - Python"
-RUN apt-get update \
-    && apt-get install --upgrade pip
+RUN pip install --upgrade pip
 
 ENV PYTHONUNBUFFERED=1
 WORKDIR /attendance_app
 
 COPY ./requirements.txt ./requirements.txt
 
-RUN pip3 install -r requirements.txt
+RUN pip install -r requirements.txt
 
 COPY ./tests /attendance_app/tests
 COPY ./src /attendance_app/src
