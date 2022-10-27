@@ -1,4 +1,4 @@
-FROM python:alpine3.16
+FROM python:3.10
 LABEL version="1.2.0" \
       description="Team attendance app - Python"
 
@@ -7,7 +7,7 @@ WORKDIR /attendance_app
 
 COPY ./requirements.txt ./requirements.txt
 
-RUN pip3 install --no-cache-dir --upgrade -r requirements.txt
+RUN pip install -r requirements.txt
 
 COPY ./tests /attendance_app/tests
 COPY ./src /attendance_app/src
