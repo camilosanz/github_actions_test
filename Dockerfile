@@ -1,4 +1,4 @@
-FROM python:alpine3.16
+FROM python:latest
 LABEL version="1.2.0" \
       description="Team attendance app - Python"
 RUN pip install --upgrade pip
