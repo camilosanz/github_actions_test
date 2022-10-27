@@ -41,6 +41,6 @@ jobs:
         run: | 
           docker-compose build
           docker-compose ps -a
-      - name: Docker Compose Running
+      - name: Docker Compose Running Test
         run: |
           docker compose run team-attendance-app -o 1 -m general -sd 2022-09-10 -ed 2022-09-20
