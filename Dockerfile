@@ -1,6 +1,8 @@
 FROM python:alpine3.16
 LABEL version="1.2.0" \
       description="Team attendance app - Python"
+RUN apt-get update \
+    && apt-get install --upgrade pip
 
 ENV PYTHONUNBUFFERED=1
 WORKDIR /attendance_app
