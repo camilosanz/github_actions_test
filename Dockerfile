@@ -1,7 +1,6 @@
-FROM python:latest
+FROM python:3.10
 LABEL version="1.2.0" \
       description="Team attendance app - Python"
-RUN pip install --upgrade pip
 
 ENV PYTHONUNBUFFERED=1
 WORKDIR /attendance_app
